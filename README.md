@@ -90,84 +90,91 @@ rm -rf ~/.git-commands
 
 ### Git Commands
 
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/add` | Stage all changes | `/add` |
-| `/addf` | Stage specific file | `/addf filename.txt` |
-| `/commit` | Commit with message | `/commit "your message"` |
-| `/acommit` | Stage all & commit | `/acommit "your message"` |
-| `/amend` | Amend last commit | `/amend "new message"` |
-| `/uncommit` | Undo last commit (keep changes) | `/uncommit` |
-| `/unstage` | Unstage file(s) | `/unstage [filename]` |
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/add` | Stage all changes | `git add .` | `/add` |
+| `/addf` | Stage specific file | `git add <file>` | `/addf filename.txt` |
+| `/commit` | Commit with message | `git commit -m "msg"` | `/commit "your message"` |
+| `/acommit` | Stage all & commit | `git add . && git commit -m "msg"` | `/acommit "your message"` |
+| `/amend` | Amend last commit | `git commit --amend -m "msg"` | `/amend "new message"` |
+| `/uncommit` | Undo last commit (keep changes) | `git reset --soft HEAD~1` | `/uncommit` |
+| `/unstage` | Unstage file(s) | `git restore --staged <file>` | `/unstage [filename]` |
 
 #### Branching
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/branch` | List all branches | `/branch` |
-| `/newbranch` | Create & switch to branch | `/newbranch feature-xyz` |
-| `/switch` | Switch to branch | `/switch main` |
-| `/delbranch` | Delete local branch | `/delbranch old-branch` |
-| `/delbranchf` | Force delete branch | `/delbranchf old-branch` |
+
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/branch` | List all branches | `git branch -a` | `/branch` |
+| `/newbranch` | Create & switch to branch | `git checkout -b <name>` | `/newbranch feature-xyz` |
+| `/switch` | Switch to branch | `git checkout <branch>` | `/switch main` |
+| `/delbranch` | Delete local branch | `git branch -d <branch>` | `/delbranch old-branch` |
+| `/delbranchf` | Force delete branch | `git branch -D <branch>` | `/delbranchf old-branch` |
 
 #### Remote Operations
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/push` | Push to remote | `/push main` |
-| `/pushf` | Force push | `/pushf feature-branch` |
-| `/pushu` | Push & set upstream | `/pushu new-branch` |
-| `/publish` | Publish current branch | `/publish` |
-| `/pull` | Pull from remote | `/pull main` |
-| `/fetch` | Fetch all remotes | `/fetch` |
-| `/remote` | View/add/remove remotes | `/remote`, `/remote add <url>` |
+
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/push` | Push to remote | `git push origin <branch>` | `/push main` |
+| `/pushf` | Force push | `git push --force origin <branch>` | `/pushf feature-branch` |
+| `/pushu` | Push & set upstream | `git push -u origin <branch>` | `/pushu new-branch` |
+| `/publish` | Publish current branch | `git push -u origin $(git branch --show-current)` | `/publish` |
+| `/pull` | Pull from remote | `git pull origin <branch>` | `/pull main` |
+| `/fetch` | Fetch all remotes | `git fetch --all` | `/fetch` |
+| `/remote` | View/add/remove remotes | `git remote -v` | `/remote`, `/remote add <url>` |
 
 #### Status & Logs
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/status` | Show git status | `/status` |
-| `/log` | Show recent commits | `/log 10` |
-| `/logg` | Show commit graph | `/logg 20` |
-| `/diff` | Show unstaged changes | `/diff` |
-| `/diffs` | Show staged changes | `/diffs` |
+
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/status` | Show git status | `git status` | `/status` |
+| `/log` | Show recent commits | `git log --oneline -n` | `/log 10` |
+| `/logg` | Show commit graph | `git log --oneline --graph --all -n` | `/logg 20` |
+| `/diff` | Show unstaged changes | `git diff` | `/diff` |
+| `/diffs` | Show staged changes | `git diff --staged` | `/diffs` |
 
 #### Stashing
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/stash` | Stash with message | `/stash "work in progress"` |
-| `/stashlist` | List all stashes | `/stashlist` |
-| `/stashpop` | Pop latest stash | `/stashpop` |
-| `/stashapply` | Apply specific stash | `/stashapply 0` |
+
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/stash` | Stash with message | `git stash push -m "msg"` | `/stash "work in progress"` |
+| `/stashlist` | List all stashes | `git stash list` | `/stashlist` |
+| `/stashpop` | Pop latest stash | `git stash pop` | `/stashpop` |
+| `/stashapply` | Apply specific stash | `git stash apply stash@{n}` | `/stashapply 0` |
 
 #### Merging & Rebasing
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/merge` | Merge branch | `/merge feature-branch` |
-| `/rebase` | Rebase onto branch | `/rebase main` |
-| `/rebasei` | Interactive rebase | `/rebasei 3` |
-| `/abort` | Abort merge | `/abort` |
+
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/merge` | Merge branch | `git merge <branch>` | `/merge feature-branch` |
+| `/rebase` | Rebase onto branch | `git rebase <branch>` | `/rebase main` |
+| `/rebasei` | Interactive rebase | `git rebase -i HEAD~n` | `/rebasei 3` |
+| `/abort` | Abort merge/rebase | `git merge --abort` | `/abort` |
 
 #### Reset & Clean
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/reset` | Hard reset (⚠️ destructive) | `/reset` |
-| `/clean` | Remove untracked files (⚠️ destructive) | `/clean` |
-| `/restore` | Discard file changes | `/restore filename.txt` |
+
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/reset` | Hard reset (⚠️ destructive) | `git reset --hard HEAD` | `/reset` |
+| `/clean` | Remove untracked files (⚠️ destructive) | `git clean -fd` | `/clean` |
+| `/restore` | Discard file changes | `git restore <file>` | `/restore filename.txt` |
 
 #### Repository
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/clone` | Clone repository | `/clone https://github.com/user/repo` |
-| `/init` | Initialize new repo | `/init` |
+
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/clone` | Clone repository | `git clone <url>` | `/clone https://github.com/user/repo` |
+| `/init` | Initialize new repo | `git init` | `/init` |
 
 ---
 
 ### Workflows (Multi-Command)
 
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/sync` | Fetch & pull latest | `/sync main` |
-| `/ship` | Stage, commit, push | `/ship "message" main` |
-| `/fresh` | New branch from main | `/fresh feature-new` |
-| `/cleanup` | Remove stale branches | `/cleanup` |
+| Shortcut | Description | Git Command | Usage |
+|----------|-------------|-------------|-------|
+| `/sync` | Fetch & pull latest | `git fetch --all && git pull origin <branch>` | `/sync main` |
+| `/ship` | Stage, commit, push | `git add . && git commit -m "msg" && git push` | `/ship "message"` |
+| `/fresh` | New branch from main | `git checkout main && git pull && git checkout -b <name>` | `/fresh feature-new` |
+| `/cleanup` | Remove stale branches | `git fetch -p && git branch -vv \| grep gone \| awk '{print $1}' \| xargs git branch -d` | `/cleanup` |
 
 ---
 
