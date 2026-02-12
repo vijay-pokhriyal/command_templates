@@ -215,7 +215,6 @@ command_templates/
 4. **Help**: Type `/help` or `cmd /help` to see quick reference
 
 ---
-**source /Users/vijaypokhriyal/Desktop/data_central/command_templates/zsh_integration.sh && /help**
 
 ## License
 
