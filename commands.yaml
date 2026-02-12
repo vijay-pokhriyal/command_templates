@@ -1,0 +1,332 @@
+# Command Templates Configuration
+# Define your shortcuts here for Git and Shell commands
+# Format: /shortcut -> full command
+
+git_commands:
+  # Staging & Committing
+  /add:
+    command: "git add ."
+    description: "Stage all changes"
+    usage: "/add"
+  
+  /addf:
+    command: "git add {file}"
+    description: "Stage a specific file"
+    usage: "/addf <filename>"
+  
+  /commit:
+    command: "git commit -m \"{message}\""
+    description: "Commit with a message"
+    usage: "/commit \"your message here\""
+  
+  /acommit:
+    command: "git add . && git commit -m \"{message}\""
+    description: "Stage all and commit"
+    usage: "/acommit \"your message here\""
+  
+  /amend:
+    command: "git commit --amend -m \"{message}\""
+    description: "Amend last commit message"
+    usage: "/amend \"new message\""
+  
+  /uncommit:
+    command: "git reset --soft HEAD~1"
+    description: "Undo last commit, keep changes staged"
+    usage: "/uncommit"
+
+  /unstage:
+    command: "git restore --staged {file}"
+    description: "Unstage a file (or all if no file specified)"
+    usage: "/unstage [filename]"
+
+  # Branching
+  /branch:
+    command: "git branch"
+    description: "List all branches"
+    usage: "/branch"
+  
+  /newbranch:
+    command: "git checkout -b {branch_name}"
+    description: "Create and switch to new branch"
+    usage: "/newbranch feature-xyz"
+  
+  /switch:
+    command: "git checkout {branch_name}"
+    description: "Switch to a branch"
+    usage: "/switch main"
+  
+  /delbranch:
+    command: "git branch -d {branch_name}"
+    description: "Delete a local branch"
+    usage: "/delbranch old-branch"
+  
+  /delbranchf:
+    command: "git branch -D {branch_name}"
+    description: "Force delete a local branch"
+    usage: "/delbranchf old-branch"
+
+  # Remote Operations
+  /push:
+    command: "git push origin {branch_name}"
+    description: "Push to remote branch"
+    usage: "/push main"
+  
+  /pushf:
+    command: "git push origin {branch_name} --force"
+    description: "Force push to remote branch"
+    usage: "/pushf feature-branch"
+  
+  /pushu:
+    command: "git push -u origin {branch_name}"
+    description: "Push and set upstream"
+    usage: "/pushu new-branch"
+  
+  /publish:
+    command: "git push -u origin $(git branch --show-current)"
+    description: "Publish current branch to remote"
+    usage: "/publish"
+  
+  /pull:
+    command: "git pull origin {branch_name}"
+    description: "Pull from remote branch"
+    usage: "/pull main"
+  
+  /fetch:
+    command: "git fetch --all"
+    description: "Fetch all remotes"
+    usage: "/fetch"
+
+  # Status & Logs
+  /status:
+    command: "git status"
+    description: "Show working tree status"
+    usage: "/status"
+  
+  /log:
+    command: "git log --oneline -n {count}"
+    description: "Show recent commits"
+    usage: "/log 10"
+  
+  /logg:
+    command: "git log --oneline --graph --all -n {count}"
+    description: "Show commit graph"
+    usage: "/logg 20"
+  
+  /diff:
+    command: "git diff"
+    description: "Show unstaged changes"
+    usage: "/diff"
+  
+  /diffs:
+    command: "git diff --staged"
+    description: "Show staged changes"
+    usage: "/diffs"
+
+  # Stashing
+  /stash:
+    command: "git stash push -m \"{message}\""
+    description: "Stash changes with message"
+    usage: "/stash \"work in progress\""
+  
+  /stashlist:
+    command: "git stash list"
+    description: "List all stashes"
+    usage: "/stashlist"
+  
+  /stashpop:
+    command: "git stash pop"
+    description: "Apply and remove latest stash"
+    usage: "/stashpop"
+  
+  /stashapply:
+    command: "git stash apply stash@{{{index}}}"
+    description: "Apply a specific stash"
+    usage: "/stashapply 0"
+
+  # Merging & Rebasing
+  /merge:
+    command: "git merge {branch_name}"
+    description: "Merge a branch into current"
+    usage: "/merge feature-branch"
+  
+  /rebase:
+    command: "git rebase {branch_name}"
+    description: "Rebase onto a branch"
+    usage: "/rebase main"
+  
+  /rebasei:
+    command: "git rebase -i HEAD~{count}"
+    description: "Interactive rebase"
+    usage: "/rebasei 3"
+  
+  /abort:
+    command: "git merge --abort"
+    description: "Abort current merge"
+    usage: "/abort"
+
+  # Reset & Clean
+  /reset:
+    command: "git reset --hard HEAD"
+    description: "Reset to last commit (discard all changes)"
+    usage: "/reset"
+  
+  /clean:
+    command: "git clean -fd"
+    description: "Remove untracked files and directories"
+    usage: "/clean"
+  
+  /restore:
+    command: "git restore {file}"
+    description: "Discard changes in a file"
+    usage: "/restore filename.txt"
+
+  # Clone & Init
+  /clone:
+    command: "git clone {url}"
+    description: "Clone a repository"
+    usage: "/clone https://github.com/user/repo.git"
+  
+  /init:
+    command: "git init"
+    description: "Initialize a new repository"
+    usage: "/init"
+
+shell_commands:
+  # Navigation
+  /ls:
+    command: "ls -la"
+    description: "List all files with details"
+    usage: "/ls"
+  
+  /cd:
+    command: "cd {path}"
+    description: "Change directory"
+    usage: "/cd ~/projects"
+  
+  /pwd:
+    command: "pwd"
+    description: "Print working directory"
+    usage: "/pwd"
+  
+  /back:
+    command: "cd .."
+    description: "Go to parent directory"
+    usage: "/back"
+
+  # File Operations
+  /mk:
+    command: "mkdir -p {dirname}"
+    description: "Create directory (with parents)"
+    usage: "/mk new-folder/subfolder"
+  
+  /touch:
+    command: "touch {filename}"
+    description: "Create empty file"
+    usage: "/touch newfile.txt"
+  
+  /rm:
+    command: "rm -rf {path}"
+    description: "Remove file or directory"
+    usage: "/rm old-folder"
+  
+  /cp:
+    command: "cp -r {source} {destination}"
+    description: "Copy files/directories"
+    usage: "/cp src dest"
+  
+  /mv:
+    command: "mv {source} {destination}"
+    description: "Move or rename files"
+    usage: "/mv old.txt new.txt"
+
+  # Search & Find
+  /find:
+    command: "find . -name \"{pattern}\""
+    description: "Find files by name"
+    usage: "/find \"*.js\""
+  
+  /grep:
+    command: "grep -r \"{pattern}\" ."
+    description: "Search for text in files"
+    usage: "/grep \"TODO\""
+
+  # Process Management
+  /ps:
+    command: "ps aux | grep {process}"
+    description: "Find running processes"
+    usage: "/ps node"
+  
+  /kill:
+    command: "kill -9 {pid}"
+    description: "Kill a process"
+    usage: "/kill 12345"
+  
+  /port:
+    command: "lsof -i :{port}"
+    description: "Find process using port"
+    usage: "/port 3000"
+
+  # Disk & Memory
+  /disk:
+    command: "df -h"
+    description: "Show disk usage"
+    usage: "/disk"
+  
+  /size:
+    command: "du -sh {path}"
+    description: "Show directory size"
+    usage: "/size ./node_modules"
+
+  # Network
+  /ip:
+    command: "curl -s ifconfig.me"
+    description: "Get public IP"
+    usage: "/ip"
+  
+  /ping:
+    command: "ping -c 4 {host}"
+    description: "Ping a host"
+    usage: "/ping google.com"
+
+  # Environment
+  /env:
+    command: "printenv | grep {var}"
+    description: "Show environment variable"
+    usage: "/env PATH"
+  
+  /export:
+    command: "export {var}={value}"
+    description: "Set environment variable"
+    usage: "/export NODE_ENV=production"
+
+# Composite workflows (multiple commands)
+workflows:
+  /sync:
+    commands:
+      - "git fetch --all"
+      - "git pull origin {branch_name}"
+    description: "Fetch and pull latest changes"
+    usage: "/sync main"
+  
+  /ship:
+    commands:
+      - "git add ."
+      - "git commit -m \"{message}\""
+      - "git push origin {branch_name}"
+    description: "Stage, commit, and push"
+    usage: "/ship \"feature complete\" main"
+  
+  /fresh:
+    commands:
+      - "git checkout main"
+      - "git pull origin main"
+      - "git checkout -b {branch_name}"
+    description: "Create fresh branch from main"
+    usage: "/fresh feature-new"
+  
+  /cleanup:
+    commands:
+      - "git fetch --prune"
+      - "git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -d"
+    description: "Remove stale local branches"
+    usage: "/cleanup"
