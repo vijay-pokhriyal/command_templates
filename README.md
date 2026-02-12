@@ -1,6 +1,6 @@
 # Command Templates 🚀
 
-A shortcut system for Git and Shell commands to boost your team's productivity.
+A shortcut system for Git commands to boost your team's productivity.
 
 ## Quick Start
 
@@ -109,49 +109,6 @@ Now you can use shortcuts directly:
 
 ---
 
-### Shell Commands
-
-#### Navigation
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/ls` | List files with details | `/ls` |
-| `/cd` | Change directory | `/cd ~/projects` |
-| `/pwd` | Print working directory | `/pwd` |
-| `/back` | Go to parent directory | `/back` |
-
-#### File Operations
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/mk` | Create directory | `/mk new-folder` |
-| `/touch` | Create empty file | `/touch newfile.txt` |
-| `/rm` | Remove file/directory (⚠️) | `/rm old-folder` |
-| `/cp` | Copy files | `/cp src dest` |
-| `/mv` | Move/rename files | `/mv old.txt new.txt` |
-
-#### Search
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/find` | Find files by name | `/find "*.js"` |
-| `/grep` | Search text in files | `/grep "TODO"` |
-
-#### Process Management
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/ps` | Find processes | `/ps node` |
-| `/kill` | Kill process | `/kill 12345` |
-| `/port` | Find process on port | `/port 3000` |
-
-#### System Info
-| Shortcut | Description | Usage |
-|----------|-------------|-------|
-| `/disk` | Show disk usage | `/disk` |
-| `/size` | Show directory size | `/size ./node_modules` |
-| `/ip` | Get public IP | `/ip` |
-| `/ping` | Ping host | `/ping google.com` |
-| `/env` | Show environment variable | `/env PATH` |
-
----
-
 ### Workflows (Multi-Command)
 
 | Shortcut | Description | Usage |
@@ -210,7 +167,7 @@ command_templates/
 ## 💡 Tips
 
 1. **Default branch**: Commands like `/push`, `/pull`, `/sync` use current branch if not specified
-2. **Confirmations**: Destructive commands (`/reset`, `/clean`, `/rm`) ask for confirmation
+2. **Confirmations**: Destructive commands (`/reset`, `/clean`) ask for confirmation
 3. **Colored output**: Commands show status with colors for easy reading
 4. **Help**: Type `/help` or `cmd /help` to see quick reference
 
