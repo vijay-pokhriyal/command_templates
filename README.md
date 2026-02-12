@@ -1,37 +1,87 @@
-# Command Templates 🚀
+# Git Command Templates 🚀
 
-A shortcut system for Git commands to boost your team's productivity.
+> **Type `/add` instead of `git add .`** — A shortcut system for Git commands to boost your productivity.
 
-## Quick Start
+[![Made for ZSH](https://img.shields.io/badge/Shell-ZSH-green.svg)](https://www.zsh.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-### 1. Make the script executable
+---
+
+## ⚡ For Developers: Get Started in 30 Seconds
+
+### Step 1: Install (one command)
 ```bash
-chmod +x ~/Desktop/data_central/command_templates/cmd.sh
+curl -fsSL https://raw.githubusercontent.com/vijay-pokhriyal/command_templates/master/remote_install.sh | bash
 ```
 
-### 2. Use directly
+### Step 2: Activate (choose one)
 ```bash
-./cmd.sh /add                    # Stage all changes
-./cmd.sh /commit "fix: bug"      # Commit with message
-./cmd.sh /ship "done" main       # Stage, commit, push
+# Option A: Reload your shell
+source ~/.git-commands/shell_integration.sh
+
+# Option B: Or just open a new terminal window
 ```
 
-### 3. (Recommended) Add to your shell
-Add this line to your `~/.zshrc`:
+### Step 3: Start using!
 ```bash
-source ~/Desktop/data_central/command_templates/zsh_integration.sh
+/help                   # See all available commands
 ```
 
-Then reload:
+That's it! ✅
+
+---
+
+## 🎯 Why Use This?
+
+| Instead of typing... | Just type... |
+|---------------------|--------------|
+| `git add .` | `/add` |
+| `git commit -m "message"` | `/commit "message"` |
+| `git add . && git commit -m "msg" && git push` | `/ship "msg"` |
+| `git checkout -b feature-x` | `/newbranch feature-x` |
+| `git log --oneline -10` | `/log 10` |
+
+**Save 50+ keystrokes per Git operation!**
+
+---
+
+## 🔧 Alternative Installation Methods
+
+### Clone & Install Locally
 ```bash
+git clone https://github.com/vijay-pokhriyal/command_templates.git
+cd command_templates
+./install.sh
+source ~/.git-commands/shell_integration.sh
+```
+
+### Manual Installation
+```bash
+# 1. Download files to ~/.git-commands/
+mkdir -p ~/.git-commands
+curl -fsSL https://raw.githubusercontent.com/vijay-pokhriyal/command_templates/master/cmd.sh > ~/.git-commands/cmd.sh
+curl -fsSL https://raw.githubusercontent.com/vijay-pokhriyal/command_templates/master/shell_integration.sh > ~/.git-commands/shell_integration.sh
+chmod +x ~/.git-commands/cmd.sh
+
+# 2. Add to your ~/.zshrc
+echo 'source ~/.git-commands/shell_integration.sh' >> ~/.zshrc
+
+# 3. Activate
 source ~/.zshrc
 ```
 
-Now you can use shortcuts directly:
+---
+
+## 🗑️ Uninstall
+
 ```bash
-/add                    # Stage all changes
-/commit "fix: bug"      # Commit with message
-/ship "done" main       # Stage, commit, push
+curl -fsSL https://raw.githubusercontent.com/vijay-pokhriyal/command_templates/master/uninstall.sh | bash
+```
+
+Or manually:
+```bash
+rm -rf ~/.git-commands
+# Remove the 'source ~/.git-commands/shell_integration.sh' line from ~/.zshrc
 ```
 
 ---
@@ -68,6 +118,7 @@ Now you can use shortcuts directly:
 | `/publish` | Publish current branch | `/publish` |
 | `/pull` | Pull from remote | `/pull main` |
 | `/fetch` | Fetch all remotes | `/fetch` |
+| `/remote` | View/add/remove remotes | `/remote`, `/remote add <url>` |
 
 #### Status & Logs
 | Shortcut | Description | Usage |
@@ -138,41 +189,86 @@ Then add the implementation in `cmd.sh`.
 
 ## 👥 Team Setup
 
-Share these files with your team:
-1. `cmd.sh` - Main script
-2. `zsh_integration.sh` - Shell integration
-3. `commands.yaml` - Configuration reference
-4. `README.md` - This documentation
+**Share with your team in one message:**
 
-Each team member should:
-1. Clone/copy the files to their machine
-2. Update the path in `zsh_integration.sh`
-3. Add `source` line to their `~/.zshrc`
-4. Reload shell with `source ~/.zshrc`
+```
+# Install Git Command Templates (saves typing for common git operations)
+curl -fsSL https://raw.githubusercontent.com/vijay-pokhriyal/command_templates/master/remote_install.sh | bash
+source ~/.git-commands/shell_integration.sh
+
+# Then type /help to see all commands
+```
+
+**Each developer runs the above and they're ready!**
+
+---
+
+## 🔍 Troubleshooting
+
+### Commands not working after install?
+```bash
+# Make sure it's sourced
+source ~/.git-commands/shell_integration.sh
+
+# Or open a new terminal
+```
+
+### Check if installed correctly
+```bash
+# Should show the help menu
+/help
+
+# Check if files exist
+ls -la ~/.git-commands/
+```
+
+### Still not working?
+```bash
+# Check your ~/.zshrc has this line:
+grep "git-commands" ~/.zshrc
+
+# If missing, add it:
+echo 'source ~/.git-commands/shell_integration.sh' >> ~/.zshrc
+source ~/.zshrc
+```
 
 ---
 
 ## 📁 File Structure
 
 ```
-command_templates/
-├── cmd.sh              # Main executable script
-├── commands.yaml       # Command configuration/reference
-├── zsh_integration.sh  # ZSH shell integration
-└── README.md           # This file
+~/.git-commands/           # Installation directory
+├── cmd.sh                 # Main executable with all commands
+├── shell_integration.sh   # ZSH integration (creates aliases)
+└── commands.yaml          # Command reference (optional)
 ```
 
 ---
 
-## 💡 Tips
+## 💡 Pro Tips
 
-1. **Default branch**: Commands like `/push`, `/pull`, `/sync` use current branch if not specified
-2. **Confirmations**: Destructive commands (`/reset`, `/clean`) ask for confirmation
-3. **Colored output**: Commands show status with colors for easy reading
-4. **Help**: Type `/help` or `cmd /help` to see quick reference
+| Tip | Example |
+|-----|---------|
+| Commands use current branch by default | `/push` pushes current branch |
+| Destructive commands ask confirmation | `/reset`, `/clean` require `y` to proceed |
+| Chain with shell commands | `/add && /commit "msg"` works! |
+| See what a command does | Check `/help` or `commands.yaml` |
 
 ---
 
-## License
+## 🤝 Contributing
 
-MIT - Free to use and modify for your team!
+1. Fork the repository
+2. Add your command to `cmd.sh`
+3. Update `commands.yaml` and `README.md`
+4. Submit a pull request
+
+---
+
+## 📝 License
+
+MIT - Free to use and modify!
+
+---
+
+**Made with ❤️ to save developers from typing `git add . && git commit -m "message" && git push` ever again.**
