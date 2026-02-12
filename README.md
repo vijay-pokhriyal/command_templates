@@ -1,37 +1,39 @@
-# Command Templates 🚀
+# Git Command Templates 🚀
 
 A shortcut system for Git commands to boost your team's productivity.
 
-## Quick Start
+## 🚀 One-Line Installation
 
-### 1. Make the script executable
+### Install via curl (Recommended)
 ```bash
-chmod +x ~/Desktop/data_central/command_templates/cmd.sh
+curl -fsSL https://raw.githubusercontent.com/vijay-pokhriyal/command_templates/master/remote_install.sh | bash
 ```
 
-### 2. Use directly
+### Or clone and install locally
 ```bash
-./cmd.sh /add                    # Stage all changes
-./cmd.sh /commit "fix: bug"      # Commit with message
-./cmd.sh /ship "done" main       # Stage, commit, push
+git clone https://github.com/vijay-pokhriyal/command_templates.git
+cd command_templates
+./install.sh
 ```
 
-### 3. (Recommended) Add to your shell
-Add this line to your `~/.zshrc`:
-```bash
-source ~/Desktop/data_central/command_templates/zsh_integration.sh
-```
-
-Then reload:
+Then restart your terminal or run:
 ```bash
 source ~/.zshrc
 ```
 
-Now you can use shortcuts directly:
+## ✨ Quick Start
+
 ```bash
+/help                   # Show all commands
 /add                    # Stage all changes
 /commit "fix: bug"      # Commit with message
-/ship "done" main       # Stage, commit, push
+/ship "done"            # Stage, commit & push
+```
+
+## 🗑️ Uninstall
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/vijay-pokhriyal/command_templates/master/uninstall.sh | bash
 ```
 
 ---
