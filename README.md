@@ -118,7 +118,7 @@ rm -rf ~/.git-commands
 | `/pushf` | Force push | `git push --force origin <branch>` | `/pushf feature-branch` |
 | `/pushu` | Push & set upstream | `git push -u origin <branch>` | `/pushu new-branch` |
 | `/publish` | Publish current branch | `git push -u origin $(git branch --show-current)` | `/publish` |
-| `/pull` | Pull from remote | `git pull origin <branch>` | `/pull main` |
+| `/pull` | Pull from remote (auto-rebase) | `git pull --rebase origin <branch>` | `/pull main` |
 | `/fetch` | Fetch all remotes | `git fetch --all` | `/fetch` |
 | `/remote` | View/add/remove remotes | `git remote -v` | `/remote`, `/remote add <url>` |
 
