@@ -29,13 +29,6 @@ alias '/stashpop'='cmd /stashpop'
 alias '/uncommit'='cmd /uncommit'
 alias '/init'='cmd /init'
 
-# Shell shortcuts  
-alias '/ls'='cmd /ls'
-alias '/pwd'='cmd /pwd'
-alias '/back'='cmd /back'
-alias '/disk'='cmd /disk'
-alias '/ip'='cmd /ip'
-
 # Functions for commands that need arguments
 /unstage() { cmd /unstage "$@"; }
 /commit() { cmd /commit "$@"; }
@@ -63,22 +56,6 @@ alias '/ip'='cmd /ip'
 /clean() { cmd /clean "$@"; }
 /restore() { cmd /restore "$@"; }
 /clone() { cmd /clone "$@"; }
-
-# Shell functions
-/cd() { cmd /cd "$@"; }
-/mk() { cmd /mk "$@"; }
-/touch() { cmd /touch "$@"; }
-/rm() { cmd /rm "$@"; }
-/cp() { cmd /cp "$@"; }
-/mv() { cmd /mv "$@"; }
-/find() { cmd /find "$@"; }
-/grep() { cmd /grep "$@"; }
-/ps() { cmd /ps "$@"; }
-/kill() { cmd /kill "$@"; }
-/port() { cmd /port "$@"; }
-/size() { cmd /size "$@"; }
-/ping() { cmd /ping "$@"; }
-/env() { cmd /env "$@"; }
 
 # Workflow functions
 /sync() { cmd /sync "$@"; }
