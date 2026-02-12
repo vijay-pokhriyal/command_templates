@@ -173,11 +173,6 @@ show_complete() {
     echo -e "${GREEN}║              Installation Complete! 🎉                     ║${NC}"
     echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"
     echo ""
-    echo -e "${YELLOW}To start using git shortcuts, run:${NC}"
-    echo -e "  ${CYAN}source $SHELL_RC${NC}"
-    echo ""
-    echo -e "${YELLOW}Or open a new terminal window.${NC}"
-    echo ""
     echo -e "${YELLOW}Quick Start:${NC}"
     echo -e "  ${CYAN}/help${NC}              Show all commands"
     echo -e "  ${CYAN}/add${NC}               Stage all changes"
@@ -188,6 +183,21 @@ show_complete() {
     echo ""
 }
 
+# Restart shell to load commands
+restart_shell() {
+    echo ""
+    echo -e "${YELLOW}To activate commands, either:${NC}"
+    echo -e "  1. Run: ${CYAN}source ~/.git-commands/shell_integration.sh${NC}"
+    echo -e "  2. Open a new terminal"
+    echo ""
+    read -p "$(echo -e "${YELLOW}Or restart shell now? (Y/n): ${NC}")" confirm
+    if [[ ! "$confirm" =~ ^[Nn]$ ]]; then
+        print_success "Starting new shell session..."
+        echo ""
+        exec $SHELL -l
+    fi
+}
+
 # Main installation
 main() {
     detect_shell
@@ -195,6 +205,7 @@ main() {
     install_files
     configure_shell
     show_complete
+    restart_shell
 }
 
 main "$@"
