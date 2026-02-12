@@ -243,7 +243,14 @@ execute_git_command() {
         "/pull")
             local branch="${args[0]:-$(git branch --show-current)}"
             print_cmd "git pull origin $branch"
-            git pull origin "$branch"
+            # Handle divergent branches by using rebase
+            git pull --rebase origin "$branch" 2>/dev/null || {
+                # If rebase fails, try regular pull
+                git pull origin "$branch" 2>&1 | grep -q "divergent" && {
+                    print_warning "Divergent branches detected. Using rebase..."
+                    git pull --rebase origin "$branch"
+                } || git pull origin "$branch"
+            }
             ;;
         "/fetch")
             print_cmd "git fetch --all"
@@ -385,8 +392,11 @@ execute_workflow() {
             print_info "Syncing with remote..."
             print_cmd "git fetch --all"
             git fetch --all
-            print_cmd "git pull origin $branch"
-            git pull origin "$branch"
+            print_cmd "git pull --rebase origin $branch"
+            git pull --rebase origin "$branch" 2>/dev/null || {
+                print_warning "Rebase failed, trying merge..."
+                git pull origin "$branch"
+            }
             print_success "Synced with $branch"
             ;;
         "/ship")
