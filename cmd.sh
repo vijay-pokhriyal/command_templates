@@ -49,6 +49,7 @@ show_help() {
     echo -e "  ${CYAN}/publish${NC}          Publish current branch"
     echo -e "  ${CYAN}/pull${NC} <branch>    Pull from remote"
     echo -e "  ${CYAN}/fetch${NC}            Fetch all remotes"
+    echo -e "  ${CYAN}/remote${NC}           View/add/remove remotes"
     echo ""
     echo -e "  ${CYAN}/status${NC}           Show git status"
     echo -e "  ${CYAN}/log${NC} <count>      Show recent commits"
@@ -206,10 +207,47 @@ execute_git_command() {
             git push -u origin "$branch"
             ;;
         "/publish")
+            # Check if remote origin exists
+            if ! git remote | grep -q "origin"; then
+                print_error "No remote 'origin' configured!"
+                echo ""
+                print_info "Set up a remote first:"
+                echo -e "  ${CYAN}/remote add <url>${NC}"
+                echo ""
+                print_info "Example:"
+                echo -e "  /remote add https://github.com/username/repo.git"
+                return 1
+            fi
             local branch="$(git branch --show-current)"
             print_cmd "git push -u origin $branch"
             git push -u origin "$branch"
             print_success "Published branch: $branch"
+            ;;
+        "/remote")
+            if [ -z "${args[0]}" ]; then
+                print_cmd "git remote -v"
+                git remote -v
+                if [ -z "$(git remote)" ]; then
+                    echo ""
+                    print_info "No remotes configured. Add one with:"
+                    echo -e "  ${CYAN}/remote add <url>${NC}"
+                fi
+            elif [ "${args[0]}" = "add" ]; then
+                if [ -z "${args[1]}" ]; then
+                    print_error "Usage: /remote add <url>"
+                    return 1
+                fi
+                print_cmd "git remote add origin ${args[1]}"
+                git remote add origin "${args[1]}"
+                print_success "Remote origin added: ${args[1]}"
+            elif [ "${args[0]}" = "remove" ]; then
+                print_cmd "git remote remove origin"
+                git remote remove origin
+                print_success "Remote origin removed"
+            else
+                print_error "Unknown option: ${args[0]}"
+                echo "Usage: /remote [add <url> | remove]"
+            fi
             ;;
         "/pull")
             local branch="${args[0]:-$(git branch --show-current)}"

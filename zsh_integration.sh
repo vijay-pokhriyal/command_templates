@@ -50,6 +50,7 @@ alias '/ip'='cmd /ip'
 /pushf() { cmd /pushf "$@"; }
 /pushu() { cmd /pushu "$@"; }
 /publish() { cmd /publish "$@"; }
+/remote() { cmd /remote "$@"; }
 /pull() { cmd /pull "$@"; }
 /logg() { cmd /logg "$@"; }
 /stash() { cmd /stash "$@"; }
