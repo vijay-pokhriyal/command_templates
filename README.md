@@ -169,17 +169,6 @@ rm -rf ~/.git-commands
 
 ### ### Workflows (Multi-Command)
 
-| Shortcut         | Description                                   | Git Command(s)                                                                                                    | Usage                  |
-|------------------|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------|------------------------|
-| `/fresh`         | Fresh feature branch from up-to-date main      | `git checkout main && git pull --rebase origin main && git checkout -b <name>`                                    | `/fresh feature-new`   |
-| `/ship`          | Stage, commit, rebase main, and push           | `git add . && git commit -m "msg" && git pull --rebase origin main && git push origin $(git branch --show-current)` | `/ship "message"`     |
-| `/cleanup`       | Remove stale/merged local branches (not main)  | `git fetch --prune && ... && ...` (see below)                                                                     | `/cleanup`             |
-| `/rebasei`       | Interactive rebase onto latest main            | `git fetch origin main && git rebase -i origin/main`                                                              | `/rebasei`             |
-| `/stash-pull-pop`| Stash, pull/rebase, and re-apply your work     | `git stash push -m ... && git pull --rebase origin ... && git stash pop`                                          | `/stash-pull-pop`      |
-| `/forcepush-safe`| Backup branch, then force-push safely          | `git branch backup-$(date +%Y%m%d%H%M%S) && git push --force-with-lease origin ...`                               | `/forcepush-safe`      |
-| `/rescue-merge`  | Undo last merge/rebase using reflog            | `git reflog && git reset --hard HEAD@{1}`                                                                         | `/rescue-merge`        |
-| `/sync`          | Fetch and rebase onto latest remote branch     | `git fetch --all && git pull --rebase origin <branch>`                                                            | `/sync main`           |
-
 > **Note:** `/cleanup` runs:
 > - `git fetch --prune`
 > - `git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d`
@@ -198,13 +187,6 @@ These workflows automate multi-step, error-prone git operations for you.
 | `/forcepush-safe`| Backup branch, then force-push safely          | `git branch backup-$(date +%Y%m%d%H%M%S) && git push --force-with-lease origin ...`                               | `/forcepush-safe`      |
 | `/rescue-merge`  | Undo last merge/rebase using reflog            | `git reflog && git reset --hard HEAD@{1}`                                                                         | `/rescue-merge`        |
 | `/sync`          | Fetch and rebase onto latest remote branch     | `git fetch --all && git pull --rebase origin <branch>`                                                            | `/sync main`           |
-
-> **Note:** `/cleanup` runs:
-> - `git fetch --prune`
-> - `git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d`
-> - `git branch --merged | grep -v '*' | grep -v 'main' | xargs -r git branch -d`
-
-These workflows automate multi-step, error-prone git operations for you.
 
 ---
 
