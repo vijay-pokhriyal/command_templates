@@ -66,11 +66,15 @@ show_help() {
         echo -e "  ${CYAN}/reset${NC}            Hard reset to HEAD"
     echo -e "  ${CYAN}/clean${NC}            Remove untracked files"
     echo ""
-    echo -e "${YELLOW}WORKFLOWS:${NC}"
-    echo -e "  ${CYAN}/sync${NC} <branch>         Fetch and pull"
-    echo -e "  ${CYAN}/ship${NC} \"msg\" <branch>   Stage, commit, push"
-    echo -e "  ${CYAN}/fresh${NC} <branch>        New branch from main"
-    echo -e "  ${CYAN}/cleanup${NC}               Remove stale branches"
+    echo -e "${YELLOW}WORKFLOWS (Multi-Command):${NC}"
+    echo -e "  ${CYAN}/fresh${NC} <branch>            Fresh feature branch from main"
+    echo -e "  ${CYAN}/ship${NC} \"msg\"             Stage, commit, rebase main, push"
+    echo -e "  ${CYAN}/cleanup${NC}                  Remove stale/merged branches"
+    echo -e "  ${CYAN}/rebasei${NC}                  Interactive rebase onto main"
+    echo -e "  ${CYAN}/stash-pull-pop${NC}           Stash, pull/rebase, re-apply work"
+    echo -e "  ${CYAN}/forcepush-safe${NC}           Backup branch, force-push safely"
+    echo -e "  ${CYAN}/rescue-merge${NC}             Undo last merge/rebase (reflog)"
+    echo -e "  ${CYAN}/sync${NC} <branch>             Fetch and rebase onto remote branch"
     echo ""
     echo -e "${YELLOW}USAGE:${NC}"
     echo -e "  ./cmd.sh /add"
@@ -431,15 +435,41 @@ execute_workflow() {
             print_success "Created fresh branch: $new_branch"
             ;;
         "/cleanup")
-            print_info "Cleaning up stale branches..."
+            print_info "Cleaning up stale and merged branches..."
             print_cmd "git fetch --prune"
             git fetch --prune
-            print_cmd "Removing merged branches..."
-            git branch -vv | grep ': gone]' | awk '{print $1}' | while read branch; do
-                print_warning "Removing: $branch"
-                git branch -d "$branch" 2>/dev/null || print_error "Could not remove $branch"
-            done
-            print_success "Cleanup complete"
+            print_cmd "git branch -vv | grep ': gone]' | awk '{print \$1}' | xargs -r git branch -d"
+            git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d
+            print_cmd "git branch --merged | grep -v '*' | grep -v 'main' | xargs -r git branch -d"
+            git branch --merged | grep -v '*' | grep -v 'main' | xargs -r git branch -d
+            print_success "Cleanup complete."
+            ;;
+        "/stash-pull-pop")
+            print_info "Stashing, pulling with rebase, and popping stash..."
+            print_cmd "git stash push -m 'auto-stash before pull'"
+            git stash push -m 'auto-stash before pull'
+            print_cmd "git pull --rebase origin $(git branch --show-current)"
+            git pull --rebase origin "$(git branch --show-current)"
+            print_cmd "git stash pop"
+            git stash pop
+            print_success "Stash applied after pull."
+            ;;
+        "/forcepush-safe")
+            local branch="$(git branch --show-current)"
+            print_info "Backing up branch and force-pushing with lease..."
+            print_cmd "git branch backup-$(date +%Y%m%d%H%M%S)"
+            git branch backup-$(date +%Y%m%d%H%M%S)
+            print_cmd "git push --force-with-lease origin $branch"
+            git push --force-with-lease origin "$branch"
+            print_success "Force-pushed with backup."
+            ;;
+        "/rescue-merge")
+            print_info "Undoing last merge/rebase using reflog..."
+            print_cmd "git reflog"
+            git reflog
+            print_cmd "git reset --hard HEAD@{1}"
+            git reset --hard HEAD@{1}
+            print_success "Rescue complete."
             ;;
         *)
             return 1

@@ -193,32 +193,63 @@ git_commands:
 
 # Composite workflows (multiple commands)
 workflows:
-  /sync:
+  /fresh:
     commands:
-      - "git fetch --all"
-      - "git pull origin {branch_name}"
-    description: "Fetch and pull latest changes"
-    usage: "/sync main"
-  
+      - "git checkout main"
+      - "git pull --rebase origin main"
+      - "git checkout -b {branch_name}"
+    description: "Create a fresh feature branch from up-to-date main"
+    usage: "/fresh feature-new"
+
   /ship:
     commands:
       - "git add ."
       - "git commit -m \"{message}\""
-      - "git push origin {branch_name}"
-    description: "Stage, commit, and push"
-    usage: "/ship \"feature complete\" main"
-  
-  /fresh:
-    commands:
-      - "git checkout main"
-      - "git pull origin main"
-      - "git checkout -b {branch_name}"
-    description: "Create fresh branch from main"
-    usage: "/fresh feature-new"
-  
+      - "git pull --rebase origin main"
+      - "git push origin $(git branch --show-current)"
+    description: "Stage, commit, rebase main, and push (safe feature delivery)"
+    usage: "/ship \"feature done\""
+
   /cleanup:
     commands:
       - "git fetch --prune"
-      - "git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -d"
-    description: "Remove stale local branches"
+      - "git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d"
+      - "git branch --merged | grep -v '\*' | grep -v 'main' | xargs -r git branch -d"
+    description: "Remove stale and merged local branches (except main)"
     usage: "/cleanup"
+
+  /rebasei:
+    commands:
+      - "git fetch origin main"
+      - "git rebase -i origin/main"
+    description: "Interactive rebase onto latest main (squash/fixup)"
+    usage: "/rebasei"
+
+  /stash-pull-pop:
+    commands:
+      - "git stash push -m 'auto-stash before pull'"
+      - "git pull --rebase origin $(git branch --show-current)"
+      - "git stash pop"
+    description: "Stash changes, pull/rebase, and re-apply your work"
+    usage: "/stash-pull-pop"
+
+  /forcepush-safe:
+    commands:
+      - "git branch backup-$(date +%Y%m%d%H%M%S)"
+      - "git push --force-with-lease origin $(git branch --show-current)"
+    description: "Backup branch, then force-push safely"
+    usage: "/forcepush-safe"
+
+  /rescue-merge:
+    commands:
+      - "git reflog"
+      - "git reset --hard HEAD@{1}"
+    description: "Undo last merge or rebase using reflog (rescue)"
+    usage: "/rescue-merge"
+
+  /sync:
+    commands:
+      - "git fetch --all"
+      - "git pull --rebase origin {branch_name}"
+    description: "Fetch and rebase onto latest remote branch"
+    usage: "/sync main"
